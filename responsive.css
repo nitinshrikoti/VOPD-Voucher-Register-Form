@@ -1,0 +1,13 @@
+@media (max-width: 767px) {
+  /* ---------- NavBar ---------- */
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+    width: 95%;
+    height: 150px;
+  }
+  .navbar-text {
+    text-align: center;
+    margin-top: 5px;
+  }
+}

@@ -1,0 +1,52 @@
+%%[
+VAR @name, @phone, @email, @voucher, @uniqueId, @result, @existing, @errorPhone, @errorVoucher, @age, @disease, @count
+
+IF NOT EMPTY(RequestParameter("submitted")) AND RequestParameter("submitted") == "true" THEN
+
+  SET @name     = RequestParameter("name")
+  SET @phone    = RequestParameter("phone")
+  SET @email    = RequestParameter("email")
+  SET @voucher  = RequestParameter("voucher")
+  SET @age      = RequestParameter("age")
+  SET @disease  = RequestParameter("disease")
+  Set @date     = Format(SystemDateToLocalDate(Now()), "yyyyMMdd")
+  Set @time     = Format(SystemDateToLocalDate(Now()), "HHmmss")
+  Set @uniqueId = Concat(@phone, "_", @date, "_", @time)
+
+  /* Count how many times this phone already exists in DE */
+  Set @count = LookupRows("VOPD_Registeration", "Phone", @phone)
+  Set @count = RowCount(@count)
+
+  /* check if voucher already used */
+  Set @existing = Lookup("VOPD_Registeration", "UniqueID", "VoucherCode", @voucher)
+
+  IF @count >= 10 THEN
+    SET @errorPhone = "This phone number has already been used for 10 registrations."
+
+  ELSEIF NOT EMPTY(@existing) THEN
+    SET @errorVoucher = "This Voucher code has already been used."
+
+  ELSE 
+    SET @result = UpsertDE(
+      "VOPD_Registeration",  
+      2,
+      "UniqueID", @uniqueId,
+      "VoucherCode", @voucher,
+      "Name", @name,
+      "Phone", @phone,
+      "EmailAddress", @email,
+      "Age", @age,
+      "DiseaseName", @disease
+    )
+
+    /* Redirect after success */
+    Redirect(Concat(
+      "https://cloud.marketing.jeenasikho.com/Thankyou?",
+      "name=", URLEncode(@name),
+      "&voucher=", URLEncode(@voucher)
+    ))
+
+  ENDIF
+
+ENDIF
+]%%

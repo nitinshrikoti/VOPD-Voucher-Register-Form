@@ -1,0 +1,231 @@
+:root {
+  --ff-exo: "Exo", serif;
+  --ff-poppins: "Poppins", sans-serif;
+  --ff-roboto-condensed: "Roboto Condensed", sans-serif;
+  --ff-josefin-slab: "Josefin Slab", serif;
+
+  --text-black: #44403b;
+  --text-gray: #787878;
+  --text-yellow: #ffed00;
+  --text-green: #254a28;
+  --color-white: #ffffff;
+
+  --color-liteGreen: #25d366;
+  --bg-green: #254a28;
+}
+
+/* -------------------- Reset -------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+a,
+li,
+ul,
+ol,
+span,
+strong,
+em,
+figure,
+picture,
+blockquote,
+dl,
+dd {
+  padding: 0;
+  margin: 0;
+  /* margin-block-end: 0; */
+}
+
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+body {
+  min-height: 100vh;
+  /* line-height: 1.6; */
+}
+
+h1,
+h2,
+h3,
+h4,
+button,
+input,
+label {
+  line-height: 1.1;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+/* A elements that don't have a class get default styles */
+/* a:not([class]) {
+  text-decoration-skip-ink: auto;
+  color: currentColor;
+} */
+a {
+  text-decoration: none;
+  color: currentColor;
+}
+
+input,
+button,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+textarea:not([rows]) {
+  min-height: 10em;
+}
+
+:target {
+  scroll-margin-block: 5ex;
+}
+
+/* -------------------- mc-default -------------------- */
+.layout-canvas-g > .section {
+  margin: 0px;
+}
+
+/* -------------------- Utilities -------------------- */
+.bg-green {
+  background-color: var(--bg-green);
+}
+
+.text-yellow {
+  color: var(--text-yellow);
+}
+.text-black {
+  color: var(--text-black);
+}
+.text-gray {
+  color: var(--text-gray);
+}
+.text-green {
+  color: var(--text-green);
+}
+.text-center {
+  text-align: center;
+}
+
+.navbar {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px auto;
+  width: 90%;
+  height: 90px;
+  border-radius: 15px 15px 15px 15px;
+  padding: 0 25px;
+  z-index: 2;
+  background: #fff;
+  box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-logo img {
+  height: 50px;
+}
+
+.navbar-text {
+  text-align: right;
+  max-width: 400px;
+}
+
+.navbar-text h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--text-green);
+  font-family: var(--ff-exo);
+}
+
+.navbar-text p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #555;
+  font-family: var(--ff-poppins);
+}
+
+form {
+  max-width: 400px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+button {
+  width: 100%;
+  padding: 12px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+button:hover {
+  background: #45a049;
+}
+
+#voucher,
+#phone {
+  margin-bottom: 2px;
+}
+
+#RegisterForm label:nth-of-type(3) {
+  margin-top: 15px;
+  display: block;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+}
+
+.input-error {
+  border: 1px solid red !important;
+  background-color: #ffe6e6;
+}

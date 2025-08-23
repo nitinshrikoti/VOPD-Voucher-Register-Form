@@ -1,0 +1,84 @@
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Form Example</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="responsive.css" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&amp;display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+  rel="stylesheet"
+/>
+
+<!-- -------------------- NavBar -------------------- -->
+<header>
+  <div class="navbar">
+    <!-- Left side logo -->
+    <div class="navbar-logo">
+      <img
+        src="https://image.marketing.jeenasikho.com/lib/fe2d117473640474771173/m/1/cbf301aa-0b2b-4801-acad-d2ad99883567.png"
+        alt="Logo"
+      />
+    </div>
+
+    <!-- Right side text -->
+    <div class="navbar-text">
+      <h1>Be Your Own Doctor</h1>
+      <p>
+        Our dedicated medical team is committed to providing exceptional care
+        and support.
+      </p>
+    </div>
+  </div>
+</header>
+
+<form
+  id="RegisterForm"
+  action="%%=RequestParameter('PAGEURL')=%%"
+  method="post"
+>
+  <input type="hidden" name="submitted" value="true" />
+
+  <label for="name">Name *</label>
+  <input type="text" id="name" name="name" required value="%%=v(@name)=%%" />
+
+  <label for="phone">Phone *</label>
+  <input type="tel" id="phone" name="phone" required value="%%=v(@phone)=%%" />
+  %%[ IF NOT EMPTY(@errorPhone) THEN ]%%
+  <div class="error-message">%%=v(@errorPhone)=%%</div>
+  %%[ ENDIF ]%%
+
+  <label for="email">Email Address</label>
+  <input type="email" id="email" name="email" value="%%=v(@email)=%%" />
+
+  <label for="age">Age</label>
+  <input type="number" id="age" name="age" value="%%=v(@age)=%%" />
+
+  <label for="email">Disease Name</label>
+  <input type="text" id="disease" name="disease" value="%%=v(@disease)=%%" />
+
+  <label for="voucher">Voucher Code *</label>
+  <input
+    type="text"
+    id="voucher"
+    name="voucher"
+    required
+    class="%%[IF NOT EMPTY(@error) THEN]%%input-error%%[ENDIF]%%"
+    value="%%=v(@voucher)=%%"
+  />
+  %%[ IF NOT EMPTY(@errorVoucher) THEN ]%%
+  <div class="error-message">%%=v(@errorVoucher)=%%</div>
+  %%[ ENDIF ]%%
+
+  <button type="submit">Submit</button>
+</form>
