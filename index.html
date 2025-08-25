@@ -1,6 +1,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Form Example</title>
+<title>VOPD Register Form</title>
 <link rel="stylesheet" href="style.css" />
 <link rel="stylesheet" href="responsive.css" />
 
@@ -42,43 +42,107 @@
   </div>
 </header>
 
-<form
-  id="RegisterForm"
-  action="%%=RequestParameter('PAGEURL')=%%"
-  method="post"
->
-  <input type="hidden" name="submitted" value="true" />
+<section class="vopd-section">
+  <!-- Left Side Text -->
+  <div class="vopd-text">
+    <h2>Redeem! Your VOPD Voucher 🎟️</h2>
 
-  <label for="name">Name *</label>
-  <input type="text" id="name" name="name" required value="%%=v(@name)=%%" />
+    <img
+      src="https://image.marketing.jeenasikho.com/lib/fe2d117473640474771173/m/1/08c5ae0d-2900-4c70-9ff4-c823dc367b9e.png"
+      alt="VOPD Coupon"
+      class="vopd-img"
+    />
 
-  <label for="phone">Phone *</label>
-  <input type="tel" id="phone" name="phone" required value="%%=v(@phone)=%%" />
-  %%[ IF NOT EMPTY(@errorPhone) THEN ]%%
-  <div class="error-message">%%=v(@errorPhone)=%%</div>
-  %%[ ENDIF ]%%
+    <p>
+      Fill in your details and let us book your consultation hassle-free. <br />
+      Our team will reach out to confirm your slot and guide you further. <br />
+      Don’t worry, your details are safe with us! 😊
+    </p>
+  </div>
 
-  <label for="email">Email Address</label>
-  <input type="email" id="email" name="email" value="%%=v(@email)=%%" />
+  <!-- Right Side Form -->
+  <div class="vopd-form">
+    <form
+      id="RegisterForm"
+      action="%%=RequestParameter('PAGEURL')=%%"
+      method="post"
+    >
+      <input type="hidden" name="submitted" value="true" />
 
-  <label for="age">Age</label>
-  <input type="number" id="age" name="age" value="%%=v(@age)=%%" />
+      <label for="name">Name *</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+        value="%%=v(@name)=%%"
+      />
 
-  <label for="email">Disease Name</label>
-  <input type="text" id="disease" name="disease" value="%%=v(@disease)=%%" />
+      <label for="phone">Phone *</label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        required
+        value="%%=v(@phone)=%%"
+      />
 
-  <label for="voucher">Voucher Code *</label>
-  <input
-    type="text"
-    id="voucher"
-    name="voucher"
-    required
-    class="%%[IF NOT EMPTY(@error) THEN]%%input-error%%[ENDIF]%%"
-    value="%%=v(@voucher)=%%"
-  />
-  %%[ IF NOT EMPTY(@errorVoucher) THEN ]%%
-  <div class="error-message">%%=v(@errorVoucher)=%%</div>
-  %%[ ENDIF ]%%
+      <label for="age">Age</label>
+      <input type="text" id="age" name="age" value="%%=v(@age)=%%" />
 
-  <button type="submit">Submit</button>
-</form>
+      <label for="disease">Disease Name</label>
+      <input
+        type="text"
+        id="disease"
+        name="disease"
+        value="%%=v(@disease)=%%"
+      />
+
+      <label for="voucher">Voucher Code *</label>
+      <input
+        type="text"
+        id="voucher"
+        name="voucher"
+        required
+        class="%%[IF NOT EMPTY(@error) THEN]%%input-error%%[ENDIF]%%"
+        value="%%=v(@voucher)=%%"
+      />
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <!-- Brand Info -->
+    <div class="footer-col">
+      <h3>Jeena Sikho</h3>
+      <p>
+        Your trusted health partner. <br />
+        Bringing wellness and care closer to you.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="https://jeenasikho.com/">Home</a></li>
+        <li><a href="https://jeenasikho.com/about-us/">About Us</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact & Social -->
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <p>📞 +91 8270482704</p>
+      <p>📧 care@jeenasikho.com</p>
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <div class="footer-bottom">
+    <p>© 2025 Jeena Sikho Lifecare Ltd. All Rights Reserved.</p>
+  </div>
+</footer>

@@ -1,11 +1,10 @@
 %%[
-VAR @name, @phone, @email, @voucher, @uniqueId, @result, @existing, @errorPhone, @errorVoucher, @age, @disease, @count
+VAR @name, @phone, @voucher, @uniqueId, @result, @existing, @errorPhone, @errorVoucher, @age, @disease, @count
 
 IF NOT EMPTY(RequestParameter("submitted")) AND RequestParameter("submitted") == "true" THEN
 
   SET @name     = RequestParameter("name")
   SET @phone    = RequestParameter("phone")
-  SET @email    = RequestParameter("email")
   SET @voucher  = RequestParameter("voucher")
   SET @age      = RequestParameter("age")
   SET @disease  = RequestParameter("disease")
@@ -34,7 +33,6 @@ IF NOT EMPTY(RequestParameter("submitted")) AND RequestParameter("submitted") ==
       "VoucherCode", @voucher,
       "Name", @name,
       "Phone", @phone,
-      "EmailAddress", @email,
       "Age", @age,
       "DiseaseName", @disease
     )

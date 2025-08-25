@@ -1,0 +1,676 @@
+
+%%[
+VAR @name, @phone, @voucher, @uniqueId, @result, @existing, @errorPhone, @errorVoucher, @age, @disease, @count
+
+IF NOT EMPTY(RequestParameter("submitted")) AND RequestParameter("submitted") == "true" THEN
+
+  SET @name     = RequestParameter("name")
+  SET @phone    = RequestParameter("phone")
+  SET @voucher  = RequestParameter("voucher")
+  SET @age      = RequestParameter("age")
+  SET @disease  = RequestParameter("disease")
+  Set @date     = Format(SystemDateToLocalDate(Now()), "yyyyMMdd")
+  Set @time     = Format(SystemDateToLocalDate(Now()), "HHmmss")
+  Set @uniqueId = Concat(@phone, "_", @date, "_", @time)
+
+  /* Count how many times this phone already exists in DE */
+  Set @count = LookupRows("VOPD_Registeration", "Phone", @phone)
+  Set @count = RowCount(@count)
+
+  /* check if voucher already used */
+  Set @existing = Lookup("VOPD_Registeration", "UniqueID", "OTCVoucherCode", @voucher)
+
+  IF @count >= 10 THEN
+    SET @errorPhone = "This phone number has already been used for 10 registrations."
+
+  ELSEIF NOT EMPTY(@existing) THEN
+    SET @errorVoucher = "This Voucher code has already been used."
+
+  ELSE 
+    SET @result = UpsertDE(
+      "VOPD_Registeration",  
+      2,
+      "UniqueID", @uniqueId,
+      "OTCVoucherCode", @voucher,
+      "Name", @name,
+      "Phone", @phone,
+      "Age", @age,
+      "DiseaseName", @disease
+    )
+
+    /* Redirect after success */
+    Redirect(Concat(
+      "https://cloud.marketing.jeenasikho.com/VOPDRegisterationThankyouPage?",
+      "name=", URLEncode(@name),
+      "&voucher=", URLEncode(@voucher)
+    ))
+
+  ENDIF
+
+ENDIF
+]%%
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOPD Register Form</title>
+<style>
+  :root {
+    --ff-exo: "Exo", serif;
+    --ff-poppins: "Poppins", sans-serif;
+    --ff-roboto-condensed: "Roboto Condensed", sans-serif;
+    --ff-josefin-slab: "Josefin Slab", serif;
+
+    --text-black: #44403b;
+    --text-gray: #787878;
+    --text-yellow: #ffed00;
+    --text-green: #254a28;
+    --color-white: #ffffff;
+
+    --color-liteGreen: #1f691b;
+    --bg-green: #254a28;
+  }
+
+  /* -------------------- Reset -------------------- */
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  a,
+  li,
+  ul,
+  ol,
+  span,
+  strong,
+  em,
+  figure,
+  picture,
+  blockquote,
+  dl,
+  dd {
+    padding: 0;
+    margin: 0;
+    /* margin-block-end: 0; */
+  }
+
+  ul[role="list"],
+  ol[role="list"] {
+    list-style: none;
+  }
+
+  body {
+    min-height: 100vh;
+    /* line-height: 1.6; */
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  button,
+  input,
+  label {
+    line-height: 1.1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  /* A elements that don't have a class get default styles */
+  /* a:not([class]) {
+  text-decoration-skip-ink: auto;
+  color: currentColor;
+} */
+  a {
+    text-decoration: none;
+    color: currentColor;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  img,
+  picture {
+    max-width: 100%;
+    display: block;
+  }
+
+  textarea:not([rows]) {
+    min-height: 10em;
+  }
+
+  :target {
+    scroll-margin-block: 5ex;
+  }
+
+  /* -------------------- mc-default -------------------- */
+  .layout-canvas-g > .section {
+    margin: 0px;
+  }
+
+  /* -------------------- Utilities -------------------- */
+  .bg-green {
+    background-color: var(--bg-green);
+  }
+
+  .text-yellow {
+    color: var(--text-yellow);
+  }
+  .text-black {
+    color: var(--text-black);
+  }
+  .text-gray {
+    color: var(--text-gray);
+  }
+  .text-green {
+    color: var(--text-green);
+  }
+  .text-center {
+    text-align: center;
+  }
+
+  /* -------------------- Navbar -------------------- */
+  .navbar {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px auto;
+    width: 90%;
+    height: 90px;
+    border-radius: 15px 15px 15px 15px;
+    padding: 0 25px;
+    z-index: 2;
+    background: #fff;
+    box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .navbar-logo img {
+    height: 50px;
+  }
+
+  .navbar-text {
+    text-align: right;
+    max-width: 400px;
+  }
+
+  .navbar-text h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--text-green);
+    font-family: var(--ff-exo);
+  }
+
+  .navbar-text p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #555;
+    font-family: var(--ff-poppins);
+  }
+
+  /* -------------------- form section -------------------- */
+
+  /* Container */
+  .vopd-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 40px;
+    max-width: 1100px;
+    margin: auto;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  /* Left Text */
+  .vopd-text {
+    text-align: center; /* centers content */
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .vopd-text h2 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+  }
+
+  .vopd-text img.vopd-img {
+    display: block;
+    max-width: 100%;
+    height: 300px;
+    margin: 15px auto; /* centers image */
+    border-radius: 12px;
+  }
+
+  .vopd-text p {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.6;
+  }
+
+  /* Right Form */
+  .vopd-form {
+    flex: 1;
+  }
+
+  /* Reusing your form styles */
+  #RegisterForm {
+    max-width: 100%;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    color: #333;
+    box-sizing: border-box;
+  }
+
+   label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #444;
+  }
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"] {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+  }
+
+   input:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 6px rgba(74, 144, 226, 0.25);
+  }
+
+   .input-error {
+    border-color: #e74c3c;
+    background: #fceaea;
+  }
+
+   button {
+    width: 100%;
+    padding: 12px;
+    background: #4a90e2;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 18px;
+  }
+
+   button:hover {
+    background: #357abd;
+  }
+
+   label:nth-of-type(3) {
+    margin-top: 18px;
+    display: block;
+  }
+
+  #voucher,
+  #phone {
+    margin-bottom: 2px;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 14px;
+  }
+
+  .input-error {
+    border: 1px solid red !important;
+    background-color: #ffe6e6;
+  }
+
+  .site-footer {
+    background: var(--color-liteGreen);
+    color: var(--color-white);
+    padding: 50px 20px 20px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    max-width: 1100px;
+    margin: auto;
+  }
+
+  .footer-col {
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .footer-col h3,
+  .footer-col h4 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .footer-col p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-white);
+  }
+
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-col ul li {
+    margin-bottom: 10px;
+  }
+
+  .footer-col ul li a {
+    color: var(--color-white);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-col ul li a:hover {
+    color: var(--text-yellow);
+  }
+
+  /* Bottom bar */
+  .footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .footer-bottom p {
+    font-size: 13px;
+    color: #bbb;
+  }
+  @media (max-width: 767px) {
+    /* ---------- NavBar ---------- */
+    .navbar {
+      flex-direction: column;
+      text-align: center;
+      width: 95%;
+      height: 130px;
+      padding: 10px;
+      justify-content: space-evenly;
+    }
+    .navbar-text {
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    /* ---------- form section ---------- */
+    .vopd-section {
+      flex-direction: column;
+      gap: 30px;
+      padding: 20px;
+    }
+
+    .vopd-text h2 {
+      font-size: 22px;
+    }
+
+    .vopd-text p {
+      font-size: 15px;
+    }
+
+    #RegisterForm {
+      max-width: 90%;
+      padding: 20px;
+    }
+
+     label {
+      font-size: 13px;
+    }
+
+     input {
+      font-size: 13px;
+      padding: 10px 12px;
+    }
+
+     button {
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    .footer-container {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .social-links {
+      margin-top: 10px;
+    }
+
+    .footer-container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 30px;
+    }
+
+    .footer-col {
+      flex: none;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .footer-col h3,
+    .footer-col h4 {
+      font-size: 16px;
+    }
+
+    .footer-col p,
+    .footer-col ul li a {
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 425px) {
+    .navbar {
+      height: 150px;
+    }
+
+    .vopd-form {
+      width: 100%;
+    }
+
+    .vopd-text img.vopd-img {
+      height: 200px;
+    }
+
+    #RegisterForm {
+      margin: 10px auto;
+      padding: 15px;
+      border-radius: 12px;
+      max-width: 95%;
+    }
+
+     label {
+      font-size: 12px;
+    }
+
+     input {
+      font-size: 12px;
+      padding: 9px 11px;
+    }
+
+     button {
+      font-size: 13px;
+      padding: 9px;
+      border-radius: 10px;
+    }
+
+    .vopd-text h2 {
+      font-size: 18px;
+    }
+
+    .vopd-text p {
+      font-size: 14px;
+    }
+    .site-footer {
+      padding: 35px 15px 15px;
+    }
+
+    .footer-col h3,
+    .footer-col h4 {
+      font-size: 15px;
+    }
+
+    .footer-col p,
+    .footer-col ul li a {
+      font-size: 12px;
+    }
+
+    .footer-bottom p {
+      font-size: 12px;
+    }
+  }
+</style>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&amp;family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+
+<!-- -------------------- NavBar -------------------- -->
+<header>
+  <div class="navbar">
+    <!-- Left side logo -->
+    <div class="navbar-logo">
+      <img src="https://image.marketing.jeenasikho.com/lib/fe2d117473640474771173/m/1/cbf301aa-0b2b-4801-acad-d2ad99883567.png" alt="Logo">
+    </div>
+
+    <!-- Right side text -->
+    <div class="navbar-text">
+      <h1>Be Your Own Doctor</h1>
+      <p>
+        Our dedicated medical team is committed to providing exceptional care
+        and support.
+      </p>
+    </div>
+  </div>
+</header>
+
+<section class="vopd-section">
+  <!-- Left Side Text -->
+  <div class="vopd-text">
+    <h2>Redeem Your VOPD Voucher 🎟️</h2>
+
+    <img src="https://image.marketing.jeenasikho.com/lib/fe2d117473640474771173/m/1/08c5ae0d-2900-4c70-9ff4-c823dc367b9e.png" alt="VOPD Coupon" class="vopd-img">
+
+    <p>
+      Fill in your details and let us book your consultation hassle-free. <br>
+      Our team will reach out to confirm your slot and guide you further. <br>
+      Don’t worry, your details are safe with us! 😊
+    </p>
+  </div>
+
+  <!-- Right Side Form -->
+  <div class="vopd-form">
+    <form id="RegisterForm" action="%%=RequestParameter('PAGEURL')=%%" method="post">
+      <input type="hidden" name="submitted" value="true">
+
+      <label for="name">Name *</label>
+      <input type="text" id="name" name="name" required="" value="%%=v(@name)=%%">
+
+      <label for="phone">Phone *</label>
+      <input type="tel" id="phone" name="phone" required="" value="%%=v(@phone)=%%">
+      %%[ IF NOT EMPTY(@errorPhone) THEN ]%%
+      <div class="error-message">%%=v(@errorPhone)=%%</div>
+      %%[ ENDIF ]%%
+
+      <label for="age">Age</label>
+      <input type="text" id="age" name="age" value="%%=v(@age)=%%">
+
+      <label for="email">Disease Name *</label>
+      <input type="text" id="disease" name="disease" value="%%=v(@disease)=%%" required="">
+
+      <label for="voucher">OTC Voucher Code *</label>
+      <input type="text" id="voucher" name="voucher" required="" class="%%[IF NOT EMPTY(@error) THEN]%%input-error%%[ENDIF]%%" value="%%=v(@voucher)=%%">
+      %%[ IF NOT EMPTY(@errorVoucher) THEN ]%%
+      <div class="error-message">%%=v(@errorVoucher)=%%</div>
+      %%[ ENDIF ]%%
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <!-- Brand Info -->
+    <div class="footer-col">
+      <h3>Jeena Sikho</h3>
+      <p>
+        Your trusted health partner. <br>
+        Bringing wellness and care closer to you.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="https://jeenasikho.com/">Home</a></li>
+        <li><a href="https://jeenasikho.com/about-us/">About Us</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact & Social -->
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <p>📞 +91 8270482704</p>
+      <p>📧 care@jeenasikho.com</p>
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <div class="footer-bottom">
+    <p>© 2025 Jeena Sikho Lifecare Ltd. All Rights Reserved.</p>
+  </div>
+</footer>
