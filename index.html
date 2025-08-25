@@ -1,21 +1,33 @@
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>VOPD Register Form</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css" />
 <!-- Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poppins&amp;family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&amp;display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins&amp;family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&amp;display=swap"
+  rel="stylesheet"
+/>
 
 <!-- -------------------- NavBar -------------------- -->
 <header>
   <div class="navbar">
     <!-- Left side logo -->
     <div class="navbar-logo">
-      <img src="https://image.marketing.jeenasikho.com/lib/fe2d117473640474771173/m/1/cbf301aa-0b2b-4801-acad-d2ad99883567.png" alt="Logo">
+      <img
+        src="https://image.marketing.jeenasikho.com/lib/fe2d117473640474771173/m/1/cbf301aa-0b2b-4801-acad-d2ad99883567.png"
+        alt="Logo"
+      />
     </div>
 
     <!-- Right side text -->
@@ -34,37 +46,82 @@
   <div class="vopd-text">
     <h2>Redeem Your VOPD Voucher 🎟️</h2>
 
-    <img src="https://image.marketing.jeenasikho.com/lib/fe2d117473640474771173/m/1/08c5ae0d-2900-4c70-9ff4-c823dc367b9e.png" alt="VOPD Coupon" class="vopd-img">
+    <img
+      src="https://image.marketing.jeenasikho.com/lib/fe2d117473640474771173/m/1/08c5ae0d-2900-4c70-9ff4-c823dc367b9e.png"
+      alt="VOPD Coupon"
+      class="vopd-img"
+    />
 
     <p>
-      Fill in your details and let us book your consultation hassle-free. <br>
-      Our team will reach out to confirm your slot and guide you further. <br>
+      Fill in your details and let us book your consultation hassle-free. <br />
+      Our team will reach out to confirm your slot and guide you further. <br />
       Don’t worry, your details are safe with us! 😊
     </p>
   </div>
 
   <!-- Right Side Form -->
   <div class="vopd-form">
-    <form id="RegisterForm" action="%%=RequestParameter('PAGEURL')=%%" method="post">
-      <input type="hidden" name="submitted" value="true">
+    <form
+      id="RegisterForm"
+      action="%%=RequestParameter('PAGEURL')=%%"
+      method="post"
+    >
+      <input type="hidden" name="submitted" value="true" />
 
       <label for="name">Name *</label>
-      <input type="text" id="name" name="name" required="" value="%%=v(@name)=%%">
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required=""
+        value="%%=v(@name)=%%"
+      />
 
       <label for="phone">Phone *</label>
-      <input type="tel" id="phone" name="phone" required="" value="%%=v(@phone)=%%">
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        required=""
+        value="%%=v(@phone)=%%"
+      />
       %%[ IF NOT EMPTY(@errorPhone) THEN ]%%
       <div class="error-message">%%=v(@errorPhone)=%%</div>
       %%[ ENDIF ]%%
 
       <label for="age">Age</label>
-      <input type="text" id="age" name="age" value="%%=v(@age)=%%">
+      <input type="text" id="age" name="age" value="%%=v(@age)=%%" />
 
-      <label for="email">Disease Name *</label>
-      <input type="text" id="disease" name="disease" value="%%=v(@disease)=%%" required="">
+      <label for="disease">Disease Name *</label>
+      <select
+        id="disease"
+        name="disease"
+        required
+        aria-placeholder="Select Disease"
+      >
+        <option value="Others">Other</option>
+        <option value="Kidney Problem">Kidney Problem</option>
+        <option value="Liver Problem">Liver Problem</option>
+        <option value="Cancer">Cancer</option>
+        <option value="Heart Disease">Heart Disease</option>
+        <option value="Thalassemia">Thalassemia</option>
+        <option value="Diabetes">Diabetes</option>
+        <option value="Blood Pressure">Blood Pressure</option>
+        <option value="Joint Pain">Joint Pain</option>
+        <option value="Gas/Acidity">Gas/Acidity</option>
+        <option value="Obesity">Obesity</option>
+        <option value="Thyroid">Thyroid</option>
+      </select>
 
       <label for="voucher">OTC Voucher Code *</label>
-      <input type="text" id="voucher" name="voucher" required="" class="%%[IF NOT EMPTY(@error) THEN]%%input-error%%[ENDIF]%%" value="%%=v(@voucher)=%%">
+      <input
+        type="text"
+        id="voucher"
+        name="voucher"
+        required=""
+        class="%%[IF NOT EMPTY(@error) THEN]%%input-error%%[ENDIF]%%"
+        value="%%=v(@voucher)=%%"
+      />
       %%[ IF NOT EMPTY(@errorVoucher) THEN ]%%
       <div class="error-message">%%=v(@errorVoucher)=%%</div>
       %%[ ENDIF ]%%
@@ -80,7 +137,7 @@
     <div class="footer-col">
       <h3>Jeena Sikho</h3>
       <p>
-        Your trusted health partner. <br>
+        Your trusted health partner. <br />
         Bringing wellness and care closer to you.
       </p>
     </div>
