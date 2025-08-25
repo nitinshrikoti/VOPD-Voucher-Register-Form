@@ -233,7 +233,7 @@ textarea:not([rows]) {
   box-sizing: border-box;
 }
 
-#RegisterForm label {
+label {
   display: block;
   margin-bottom: 6px;
   font-weight: 600;
@@ -241,9 +241,9 @@ textarea:not([rows]) {
   color: #444;
 }
 
-#RegisterForm input[type="text"],
-#RegisterForm input[type="tel"],
-#RegisterForm input[type="email"] {
+input[type="text"],
+input[type="tel"],
+input[type="email"] {
   width: 100%;
   padding: 12px 14px;
   margin-bottom: 18px;
@@ -254,18 +254,18 @@ textarea:not([rows]) {
   box-sizing: border-box;
 }
 
-#RegisterForm input:focus {
+input:focus {
   outline: none;
   border-color: #4a90e2;
   box-shadow: 0 0 6px rgba(74, 144, 226, 0.25);
 }
 
-#RegisterForm .input-error {
+.input-error {
   border-color: #e74c3c;
   background: #fceaea;
 }
 
-#RegisterForm button {
+button {
   width: 100%;
   padding: 12px;
   background: #4a90e2;
@@ -276,10 +276,16 @@ textarea:not([rows]) {
   border-radius: 12px;
   cursor: pointer;
   transition: background 0.3s ease;
+  margin-top: 18px;
 }
 
-#RegisterForm button:hover {
+button:hover {
   background: #357abd;
+}
+
+label:nth-of-type(3) {
+  margin-top: 18px;
+  display: block;
 }
 
 #voucher,

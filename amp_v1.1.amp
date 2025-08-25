@@ -1,3 +1,4 @@
+
 %%[
 VAR @name, @phone, @voucher, @uniqueId, @result, @existing, @errorPhone, @errorVoucher, @age, @disease, @count
 
@@ -17,7 +18,7 @@ IF NOT EMPTY(RequestParameter("submitted")) AND RequestParameter("submitted") ==
   Set @count = RowCount(@count)
 
   /* check if voucher already used */
-  Set @existing = Lookup("VOPD_Registeration", "UniqueID", "VoucherCode", @voucher)
+  Set @existing = Lookup("VOPD_Registeration", "UniqueID", "OTCVoucherCode", @voucher)
 
   IF @count >= 10 THEN
     SET @errorPhone = "This phone number has already been used for 10 registrations."
@@ -30,7 +31,7 @@ IF NOT EMPTY(RequestParameter("submitted")) AND RequestParameter("submitted") ==
       "VOPD_Registeration",  
       2,
       "UniqueID", @uniqueId,
-      "VoucherCode", @voucher,
+      "OTCVoucherCode", @voucher,
       "Name", @name,
       "Phone", @phone,
       "Age", @age,
@@ -39,7 +40,7 @@ IF NOT EMPTY(RequestParameter("submitted")) AND RequestParameter("submitted") ==
 
     /* Redirect after success */
     Redirect(Concat(
-      "https://cloud.marketing.jeenasikho.com/Thankyou?",
+      "https://cloud.marketing.jeenasikho.com/VOPDRegisterationThankyouPage?",
       "name=", URLEncode(@name),
       "&voucher=", URLEncode(@voucher)
     ))

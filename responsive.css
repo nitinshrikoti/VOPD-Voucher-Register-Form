@@ -5,6 +5,8 @@
     text-align: center;
     width: 95%;
     height: 130px;
+    padding: 10px;
+    justify-content: space-evenly;
   }
   .navbar-text {
     text-align: center;
@@ -31,16 +33,16 @@
     padding: 20px;
   }
 
-  #RegisterForm label {
+  label {
     font-size: 13px;
   }
 
-  #RegisterForm input {
+  input {
     font-size: 13px;
     padding: 10px 12px;
   }
 
-  #RegisterForm button {
+  button {
     font-size: 14px;
     padding: 10px;
   }
@@ -98,16 +100,16 @@
     max-width: 95%;
   }
 
-  #RegisterForm label {
+  label {
     font-size: 12px;
   }
 
-  #RegisterForm input {
+  input {
     font-size: 12px;
     padding: 9px 11px;
   }
 
-  #RegisterForm button {
+  button {
     font-size: 13px;
     padding: 9px;
     border-radius: 10px;
