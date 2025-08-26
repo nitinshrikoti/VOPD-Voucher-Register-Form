@@ -93,25 +93,62 @@
       <input type="text" id="age" name="age" value="%%=v(@age)=%%" />
 
       <label for="disease">Disease Name *</label>
-      <select
-        id="disease"
-        name="disease"
-        required
-        aria-placeholder="Select Disease"
-      >
-        <option value="Others">Other</option>
-        <option value="Kidney Problem">Kidney Problem</option>
-        <option value="Liver Problem">Liver Problem</option>
-        <option value="Cancer">Cancer</option>
-        <option value="Heart Disease">Heart Disease</option>
-        <option value="Thalassemia">Thalassemia</option>
-        <option value="Diabetes">Diabetes</option>
-        <option value="Blood Pressure">Blood Pressure</option>
-        <option value="Joint Pain">Joint Pain</option>
-        <option value="Gas/Acidity">Gas/Acidity</option>
-        <option value="Obesity">Obesity</option>
-        <option value="Thyroid">Thyroid</option>
-      </select>
+      <div class="multiselect-dropdown">
+        <div class="selectBox" onclick="toggleCheckboxes()">
+          <span>Select Disease</span>
+          <div class="arrow">&#9662;</div>
+        </div>
+        <div id="checkboxes">
+          <label
+            ><input type="checkbox" name="disease" value="Others" />
+            Other</label
+          >
+          <label
+            ><input type="checkbox" name="disease" value="Kidney Problem" />
+            Kidney Problem</label
+          >
+          <label
+            ><input type="checkbox" name="disease" value="Liver Problem" />
+            Liver Problem</label
+          >
+          <label
+            ><input type="checkbox" name="disease" value="Cancer" />
+            Cancer</label
+          >
+          <label
+            ><input type="checkbox" name="disease" value="Heart Disease" />
+            Heart Disease</label
+          >
+          <label
+            ><input type="checkbox" name="disease" value="Thalassemia" />
+            Thalassemia</label
+          >
+          <label
+            ><input type="checkbox" name="disease" value="Diabetes" />
+            Diabetes</label
+          >
+          <label
+            ><input type="checkbox" name="disease" value="Blood Pressure" />
+            Blood Pressure</label
+          >
+          <label
+            ><input type="checkbox" name="disease" value="Joint Pain" /> Joint
+            Pain</label
+          >
+          <label
+            ><input type="checkbox" name="disease" value="Gas/Acidity" />
+            Gas/Acidity</label
+          >
+          <label
+            ><input type="checkbox" name="disease" value="Obesity" />
+            Obesity</label
+          >
+          <label
+            ><input type="checkbox" name="disease" value="Thyroid" />
+            Thyroid</label
+          >
+        </div>
+      </div>
 
       <label for="voucher">OTC Voucher Code *</label>
       <input
@@ -164,3 +201,17 @@
     <p>© 2025 Jeena Sikho Lifecare Ltd. All Rights Reserved.</p>
   </div>
 </footer>
+
+<script>
+  let expanded = false;
+  function toggleCheckboxes() {
+    const checkboxes = document.getElementById("checkboxes");
+    if (!expanded) {
+      checkboxes.style.display = "block";
+      expanded = true;
+    } else {
+      checkboxes.style.display = "none";
+      expanded = false;
+    }
+  }
+</script>

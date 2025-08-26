@@ -378,3 +378,59 @@ select {
   border-radius: 10px;
   font-size: 14px;
 }
+
+.multiselect-dropdown {
+  position: relative;
+  width: 100%;
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+.selectBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.selectBox:hover {
+  border-color: #4a90e2;
+  box-shadow: 0 0 6px rgba(74, 144, 226, 0.25);
+}
+
+.selectBox span {
+  color: #555;
+}
+
+.arrow {
+  font-size: 12px;
+  color: #555;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  position: absolute;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 99;
+  padding: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+#checkboxes label {
+  display: block;
+  padding: 6px;
+  cursor: pointer;
+}
+
+#checkboxes label:hover {
+  background: #f5f5f5;
+}
